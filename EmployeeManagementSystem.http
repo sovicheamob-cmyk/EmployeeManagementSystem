@@ -1,6 +1,14 @@
 @EmployeeManagementSystem_HostAddress = http://localhost:5063
 
-GET {{EmployeeManagementSystem_HostAddress}}/weatherforecast/
-Accept: application/json
+### Sample request to create a new employee
+POST http://localhost:5063/api/Auth/login
+Content-Type: application/json
 
-###
+{
+    "username": "admin",
+    "password": "admin123"
+}
+
+### Sample request to get all employees (requires authentication)
+GET http://localhost:5063/api/Employees
+Authorization: Bearer {your_jwt_token_here}
