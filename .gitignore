@@ -85,4 +85,3 @@ BenchmarkDotNet.Artifacts/
 
 # Code coverage
 *.cobertura.xml
-*.csc
