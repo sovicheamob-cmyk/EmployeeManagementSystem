@@ -8,6 +8,7 @@ namespace EmployeeManagementSystem.Common;
 /// - Makes error handling predictable for clients
 /// - Includes metadata (Status, Code, Message) along with data
 /// - Allows typed data responses with generics
+/// - Supports pagination for list endpoints
 /// 
 /// REQUEST FLOW:
 /// Controller → Service → Database → Service wraps result in ApiResponse<T> → Client receives standardized format
@@ -41,6 +42,61 @@ public class ApiResponse<T>
     /// Is null/default when operation fails
     /// </summary>
     public T? Data { get; set; }
+
+    /// <summary>
+    /// Pagination: Current page number
+    /// </summary>
+    public int? PageNumber { get; set; }
+
+    /// <summary>
+    /// Pagination: Page size
+    /// </summary>
+    public int? PageSize { get; set; }
+
+    /// <summary>
+    /// Pagination: Total count of items
+    /// </summary>
+    public int? TotalCount { get; set; }
+
+    /// <summary>
+    /// Pagination: Total pages
+    /// </summary>
+    public int? TotalPages { get; set; }
+
+    /// <summary>
+    /// Pagination: Has next page
+    /// </summary>
+    public bool? HasNextPage { get; set; }
+
+    /// <summary>
+    /// Pagination: Has previous page
+    /// </summary>
+    public bool? HasPreviousPage { get; set; }
+
+    /// <summary>
+    /// Creates a successful response with pagination
+    /// </summary>
+    public static ApiResponse<T> SuccessWithPagination(
+        T data,
+        string message,
+        int pageNumber,
+        int pageSize,
+        int totalCount)
+    {
+        return new ApiResponse<T>
+        {
+            Status = "Success",
+            Code = 200,
+            Message = message,
+            Data = data,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalCount = totalCount,
+            TotalPages = (int)Math.Ceiling((double)totalCount / pageSize),
+            HasPreviousPage = pageNumber > 1,
+            HasNextPage = pageNumber < (int)Math.Ceiling((double)totalCount / pageSize)
+        };
+    }
 
     /// <summary>
     /// Creates a successful response

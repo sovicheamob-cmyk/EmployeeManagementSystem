@@ -39,7 +39,7 @@ public interface IEmployeeService
     /// GET /api/employees?pageNumber=1&pageSize=10
     /// Returns first 10 employees
     /// </summary>
-    Task<ApiResponse<PaginatedEmployeeResponseDto>> GetAllEmployeesAsync(int pageNumber, int pageSize);
+    Task<ApiResponse<List<EmployeeDto>>> GetAllEmployeesAsync(int pageNumber, int pageSize);
 
     /// <summary>
     /// Get employee by ID

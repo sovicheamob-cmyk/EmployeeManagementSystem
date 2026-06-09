@@ -51,7 +51,7 @@ public class EmployeeService : IEmployeeService
     /// <summary>
     /// Get all employees with pagination
     /// </summary>
-    public async Task<ApiResponse<PaginatedEmployeeResponseDto>> GetAllEmployeesAsync(
+    public async Task<ApiResponse<List<EmployeeDto>>> GetAllEmployeesAsync(
         int pageNumber,
         int pageSize)
     {
@@ -64,26 +64,19 @@ public class EmployeeService : IEmployeeService
                 e => e.IsActive  // Only active employees
             );
 
-            // Convert Model to DTO
             var employeeDtos = employees.Select(MapToDto).ToList();
 
-            // Create paginated response
-            var response = new PaginatedEmployeeResponseDto
-            {
-                Data = employeeDtos,
-                PageNumber = pageNumber,
-                PageSize = pageSize,
-                TotalCount = totalCount
-            };
-
-            return ApiResponse<PaginatedEmployeeResponseDto>.Success(
-                response,
-                MessageConstants.SUCCESS
+            return ApiResponse<List<EmployeeDto>>.SuccessWithPagination(
+                employeeDtos,
+                MessageConstants.SUCCESS,
+                pageNumber,
+                pageSize,
+                totalCount
             );
         }
         catch (Exception)
         {
-            return ApiResponse<PaginatedEmployeeResponseDto>.Fail(
+            return ApiResponse<List<EmployeeDto>>.Fail(
                 500,
                 MessageConstants.FAILED
             );

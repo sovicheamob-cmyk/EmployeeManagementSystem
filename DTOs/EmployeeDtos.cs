@@ -115,27 +115,3 @@ public class UpdateEmployeeRequestDto
     [Required(ErrorMessage = "Active status is required")]
     public bool IsActive { get; set; }
 }
-
-/// <summary>
-/// DTO for paginated employee list response
-/// 
-/// WHY PAGINATION?
-/// - If there are 10,000 employees, returning all at once is slow
-/// - Client loads first 10, then next 10 as user scrolls
-/// - Reduces network bandwidth
-/// - Improves user experience
-/// 
-/// USAGE:
-/// GET /api/employees?pageNumber=1&pageSize=10
-/// Response includes total count so client knows how many pages exist
-/// </summary>
-public class PaginatedEmployeeResponseDto
-{
-    public List<EmployeeDto> Data { get; set; } = new();
-    public int PageNumber { get; set; }
-    public int PageSize { get; set; }
-    public int TotalCount { get; set; }
-    public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
-    public bool HasPreviousPage => PageNumber > 1;
-    public bool HasNextPage => PageNumber < TotalPages;
-}

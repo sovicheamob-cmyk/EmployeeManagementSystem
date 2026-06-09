@@ -56,30 +56,28 @@ public class EmployeesController : ControllerBase
     ///   "status": "Success",
     ///   "code": 200,
     ///   "message": "Operation completed successfully",
-    ///   "data": {
-    ///     "data": [
-    ///       {
-    ///         "id": 1,
-    ///         "employeeCode": "EMP001",
-    ///         "firstName": "John",
-    ///         "lastName": "Doe",
-    ///         "email": "john@company.com",
-    ///         "department": "IT",
-    ///         "position": "Senior Developer",
-    ///         "salary": 100000,
-    ///         "joinDate": "2022-01-15",
-    ///         "isActive": true,
-    ///         "fullName": "John Doe",
-    ///         "yearsOfEmployment": 2
-    ///       }
-    ///     ],
-    ///     "pageNumber": 1,
-    ///     "pageSize": 10,
-    ///     "totalCount": 45,
-    ///     "totalPages": 5,
-    ///     "hasNextPage": true,
-    ///     "hasPreviousPage": false
-    ///   }
+    ///   "data": [
+    ///     {
+    ///       "id": 1,
+    ///       "employeeCode": "EMP001",
+    ///       "firstName": "John",
+    ///       "lastName": "Doe",
+    ///       "email": "john@company.com",
+    ///       "department": "IT",
+    ///       "position": "Senior Developer",
+    ///       "salary": 100000,
+    ///       "joinDate": "2022-01-15",
+    ///       "isActive": true,
+    ///       "fullName": "John Doe",
+    ///       "yearsOfEmployment": 2
+    ///     }
+    ///   ],
+    ///   "pageNumber": 1,
+    ///   "pageSize": 10,
+    ///   "totalCount": 45,
+    ///   "totalPages": 5,
+    ///   "hasNextPage": true,
+    ///   "hasPreviousPage": false
     /// }
     /// 
     /// PAGINATION PARAMETERS:
@@ -93,7 +91,7 @@ public class EmployeesController : ControllerBase
     /// - Bandwidth: Smaller response size
     /// </summary>
     [HttpGet]
-    [ProducesResponseType(typeof(ApiResponse<PaginatedEmployeeResponseDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<List<EmployeeDto>>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
         try
@@ -111,7 +109,7 @@ public class EmployeesController : ControllerBase
             _logger.LogError($"GetAll error: {ex.Message}");
             return StatusCode(
                 StatusCodes.Status500InternalServerError,
-                ApiResponse<PaginatedEmployeeResponseDto>.Fail(500, MessageConstants.SERVER_ERROR)
+                ApiResponse<List<EmployeeDto>>.Fail(500, MessageConstants.SERVER_ERROR)
             );
         }
     }
